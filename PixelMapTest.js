@@ -17,16 +17,15 @@ const neopixelC = new NeoPixel();
     await neopixelB.connect(SERVERB);
     await neopixelC.connect(SERVERC);
 
-    // await NeoPixel.wait(10000);
-
     //Set pixel counts for each strip on each controller
     for(let i = 0; i < 4; i++) {
         neopixelA.setPixelCount(i, numPixels);
         neopixelB.setPixelCount(i, numPixels);
         neopixelC.setPixelCount(i, numPixels);
     }
+    neopixelA.setPixelCount(0, 276);
 
-    await NeoPixel.wait(1000);
+    await NeoPixel.wait(50);
 
     //Turn all relays on in each controller
     for(let i = 0; i < 4; i++ ) {
@@ -35,31 +34,7 @@ const neopixelC = new NeoPixel();
         neopixelC.toggleRelayOn(i);
     }
 
-    await NeoPixel.wait(1000);
-
-    //COLOR FILL DEMO
-    //Set up array of colors to use for filling strips
-    let colors = [
-        { r: 100, g: 100, b: 100 },
-        { r: 255, g: 255, b: 255 },
-        { r: 255, g: 0, b: 0 },
-        { r: 0, g: 255, b: 0 },
-        { r: 0, g: 0, b: 255 },
-        { r: 255, g: 255, b: 0 },
-        { r: 255, g: 0, b: 255 },
-        { r: 0, g: 255, b: 255 },
-        { r: 0, g: 0, b: 0 }
-    ];
-
-    //Fill strips with each color and pause for 1s on each color
-    for(let i = 0; i < 9; i++) {
-        for(let j = 0; j < 4; j++) {
-            neopixelA.fill(j, colors[i]);
-            neopixelB.fill(j, colors[i]);
-            neopixelC.fill(j, colors[i]);
-        }
-        await NeoPixel.wait(3000);
-    }
+    await NeoPixel.wait(50);
 
     //Turn all strips off
     for(let i = 0; i < 4; i++) {
@@ -68,159 +43,53 @@ const neopixelC = new NeoPixel();
         neopixelC.off(i);
     }
 
-    await NeoPixel.wait(1000);
+    await NeoPixel.wait(50);
 
-
-    //Sweep colors across each strip, every other strip in the opposite direction
-    for(let i = 0; i < numPixels; i++){
-        neopixelA.setPixels([
-            { s: 0, p: i, r: 255, g: 0, b: 0 },
-            { s: 1, p: (numPixels - i - 1), r: 0, g: 255, b: 0 },
-            { s: 2, p: i, r: 0, g: 0, b: 255 },
-            { s: 3, p: (numPixels - i - 1), r: 255, g: 255, b: 255 }
-        ], false);
-
-        neopixelB.setPixels([
-            { s: 0, p: i, r: 255, g: 255, b: 0 },
-            { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
-            { s: 2, p: i, r: 0, g: 255, b: 255 },
-            { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
-        ], false);
-
-        neopixelC.setPixels([
-            { s: 0, p: i, r: 255, g: 255, b: 0 },
-            { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
-            { s: 2, p: i, r: 0, g: 255, b: 255 },
-            { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
-        ], false);
-        await NeoPixel.wait(20);
-    }
-
-    await NeoPixel.wait(2000);
-
-    //Turn all strips off
-    for(let i = 0; i < 4; i++) {
-        neopixelA.off(i);
-        neopixelB.off(i);
-        neopixelC.off(i);
-    }
-
-    await NeoPixel.wait(1000);
-
-
-    //Sweep colors across each strip, every other strip in the opposite direction, only one pixel on at a time
-    for(let i = 0; i < numPixels; i++){
-        neopixelA.setPixels([
-            { s: 0, p: i, r: 255, g: 0, b: 0 },
-            { s: 1, p: (numPixels - i - 1), r: 0, g: 255, b: 0 },
-            { s: 2, p: i, r: 0, g: 0, b: 255 },
-            { s: 3, p: (numPixels - i - 1), r: 255, g: 255, b: 255 }
-        ], true);
-
-        neopixelB.setPixels([
-            { s: 0, p: i, r: 255, g: 255, b: 0 },
-            { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
-            { s: 2, p: i, r: 0, g: 255, b: 255 },
-            { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
-        ], true);
-
-        neopixelC.setPixels([
-            { s: 0, p: i, r: 255, g: 255, b: 0 },
-            { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
-            { s: 2, p: i, r: 0, g: 255, b: 255 },
-            { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
-        ], true);
-        await NeoPixel.wait(20);
-    }
-
-    await NeoPixel.wait(2000);
-
-    //Turn all strips off
-    for(let i = 0; i < 4; i++) {
-        neopixelA.off(i);
-        neopixelB.off(i);
-        neopixelC.off(i);
-    }
-
-    await NeoPixel.wait(1000);
-    
-
-    //Sweep the color wheel across each strip, every other strip in the opposite direction
-    const rainbowColors = rainbowEffect(numPixels);
-    for (let i = 0; i < numPixels; i++) {
-        neopixelA.setPixels([
-            {s: 0, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 1, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 2, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 3, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b}
-        ], false);
-
-        neopixelB.setPixels([
-            {s: 0, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 1, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 2, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 3, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b}
-        ], false);
-
-        neopixelC.setPixels([
-            {s: 0, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 1, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 2, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
-            {s: 3, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b}
-        ], false);
-
-        await NeoPixel.wait(20);
-    }
-
-    await NeoPixel.wait(2000);
-
-    //Turn all strips off
-    for(let i = 0; i < 4; i++) {
-        neopixelA.off(i);
-        neopixelB.off(i);
-        neopixelC.off(i);
-    }
-
-    await NeoPixel.wait(1000);
-
-    //Set each pixel to a different color
     let redA, blueA, greenA;
     for(let i = 0; i < numPixels; i++){
-        if((i + 0) % 3 == 0) {redA = 255; greenA = 0; blueA = 0;}
-        if((i + 1) % 3 == 0) {redA = 0; greenA = 255; blueA = 0;}
-        if((i + 2) % 3 == 0) {redA = 0; greenA = 0; blueA = 255;}
-
-        if((i + 0) % 3 == 0) {redB = 255; greenB = 255; blueB = 0;}
-        if((i + 1) % 3 == 0) {redB = 255; greenB = 0; blueB = 255;}
-        if((i + 2) % 3 == 0) {redB = 0; greenB = 255; blueB = 255;}
+        if(i % 5 == 0) {
+            red = 100;
+            green = 100;
+            blue = 100;
+        } else {
+            red = 0;
+            green = 0;
+            blue = 30;
+        }
         
         for (let j = 0; j < 4; j++) {
-            neopixelA.setPixels([{ s: j, p: i, r: redA, g: greenA, b: blueA }], false);
-            neopixelB.setPixels([{ s: j, p: (numPixels - i - 1), r: redB, g: greenB, b: blueB }], false);
-            neopixelC.setPixels([{ s: j, p: (numPixels - i - 1), r: redB, g: greenB, b: blueB }], false);
+            neopixelA.setPixels([{ s: j, p: i, r: red, g: green, b: blue }], false);
+            neopixelB.setPixels([{ s: j, p: i, r: red, g: green, b: blue }], false);
+            neopixelC.setPixels([{ s: j, p: i, r: red, g: green, b: blue }], false);
         }
+
         await NeoPixel.wait(20);
     }
 
-    await NeoPixel.wait(2000);
+    // for (let i = 248; i <= 275; i++) {
+    //     neopixelA.setPixels([{ s: 0, p: i, r: 255, g: 255, b: 255 }], false);
+    //     await NeoPixel.wait(10);
+    // }
 
-    //Turn all strips off
-    for(let i = 0; i < 4; i++) {
-        neopixelA.off(i);
-        neopixelB.off(i);
-        neopixelC.off(i);
-    }
+    // await NeoPixel.wait(2000);
 
-    await NeoPixel.wait(1000);
+    // //Turn all strips off
+    // for(let i = 0; i < 4; i++) {
+    //     neopixelA.off(i);
+    //     neopixelB.off(i);
+    //     neopixelC.off(i);
+    // }
 
-    //Turn all relays off
-    for(let i = 0; i < 4; i++ ) {
-        neopixelA.toggleRelayOff(i);    
-        neopixelB.toggleRelayOff(i);
-        neopixelC.toggleRelayOff(i);
-    }
+    // await NeoPixel.wait(1000);
 
-    await NeoPixel.wait(1000);
+    // //Turn all relays off
+    // for(let i = 0; i < 4; i++ ) {
+    //     neopixelA.toggleRelayOff(i);    
+    //     neopixelB.toggleRelayOff(i);
+    //     neopixelC.toggleRelayOff(i);
+    // }
+
+    // await NeoPixel.wait(1000);
 
     //Disconnect from controllers
     neopixelA.disconnect();

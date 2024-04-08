@@ -1,23 +1,31 @@
 var express = require('express');
 const NeoPixel = require('./NeoPixel');
-const PixelMap = require('./PixelMap');
 const PixelFunctions = require('./PixelFunctions');
 var app = express();
 
 app.use(express.json());
 
-var pixelMap = new PixelMap();
+var functions = new PixelFunctions();
 
 app.listen(3000, () =>{
   console.log("server started");
 });
 
-app.post("/setSection", (req, res) => {
+app.post("/setSections", (req, res) => {
   console.log(req.body);
-  const section = req.body.section;
+  var sections = [];
+  req.body.sections.forEach((val) => {
+    sections.push(val.split(""));
+  });
+  const reset = req.body.reset;
   const color = req.body.color;
-  var functions = new PixelFunctions();
-  var map = pixelMap.getPixelMap();
-  functions.lightSection(map[section[0]][section[1]][section[2]], color);
+  const fade = req.body.fade;
+
+  if (fade && fade.doFade) {
+    functions.fadeSections(sections, color, fade.fadeTo, fade.fadeTime, reset);
+  } else {
+    functions.lightSections(sections, color, reset);
+  }
+
   res.json("Server Running");
 });

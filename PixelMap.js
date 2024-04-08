@@ -12,12 +12,17 @@ const stripD = "3";
 class PixelMap {
     sections = {};
     constructor () {
-        this.neopixel1 = new NeoPixel();
-        this.neopixel2 = new NeoPixel();
-        this.neopixel3 = new NeoPixel();
+        this.neopixel1 = new NeoPixel("neopixel1");
+        this.neopixel2 = new NeoPixel("neopixel2");
+        this.neopixel3 = new NeoPixel("neopixel3");
 
         this.setupControllers();
         this.sections = this.initializeSections();
+        this.pixelMap = this.buildPixelMap();
+    }
+
+    getPixelMap() {
+        return this.pixelMap;
     }
 
     async setupControllers() {
@@ -56,7 +61,7 @@ class PixelMap {
         }
     }
 
-    getPixelMap() {
+    buildPixelMap() {
         return {
             A: this.buildA(),
             B: this.buildB(),

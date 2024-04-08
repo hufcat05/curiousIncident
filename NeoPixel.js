@@ -6,12 +6,22 @@ const WrongFeedback = require('./WrongFeedback');
 const BadType = require('./BadType');
 
 class NeoPixel extends EventEmitter {
-  constructor () {
+  constructor (name) {
     super();
 
+    this.name = name;
     this.transport = undefined;
     this.pixels = undefined;
+    this.latestPixelState = undefined;
     this.cbs = [];
+  }
+
+  getLatestPixelState () {
+    return this.latestPixelState;
+  }
+
+  getName() {
+    return this.name;
   }
 
   //Method: connect
@@ -56,6 +66,7 @@ class NeoPixel extends EventEmitter {
   //Method: setPixels
   //Description: Take 'arrayOfColors' and apply each element to the specified strip and pixel
   setPixels (arrayOfColors, reset = false) {
+    //console.log(arrayOfColors);
     return new Promise((resolve, reject) => {
       const startTime = Date.now();
 
@@ -107,6 +118,7 @@ class NeoPixel extends EventEmitter {
 
       this.cbs.push({ time: startTime, ack: 'apply', resolve, reject });
       this.transport.write(buffer);
+      this.latestPixelState = arrayOfColors;
     })
   }
 

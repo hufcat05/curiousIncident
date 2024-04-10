@@ -25,6 +25,32 @@ class PixelMap {
         return this.pixelMap;
     }
 
+    getStrips() {
+        return [stripA, stripB, stripC, stripD];
+    }
+
+    getControllers() {
+        return [this.neopixel1, this.neopixel2, this.neopixel3];
+    }
+
+    async shutdownControllers() {
+        console.log("turning strips off");
+        for(let i = 0; i < 4; i++) {
+            this.neopixel1.off(i);
+            this.neopixel2.off(i);
+            this.neopixel3.off(i);
+        }
+
+        await NeoPixel.wait(500);
+
+        //Turn all relays on in each controller
+        for(let i = 0; i < 4; i++ ) {
+            this.neopixel1.toggleRelayOff(i);    
+            this.neopixel2.toggleRelayOff(i);
+            this.neopixel3.toggleRelayOff(i);
+        }
+    }
+
     async setupControllers() {
         //Connect to each controller
         await this.neopixel1.connect(SERVER1);

@@ -27,5 +27,25 @@ app.post("/setSections", (req, res) => {
     functions.lightSections(sections, color, reset);
   }
 
-  res.json("Server Running");
+  res.json("Success");
 });
+
+app.post("/fullGrid", (req, res) => {
+  console.log(req.body);
+  var color = req.body.color;
+  var fade = req.body.fade;
+
+  if (fade && fade.doFade) {
+    functions.fadeFill(color, fade.fadeTo, fade.fadeTime);
+  } else {
+    functions.fillSections(color);
+  }
+
+  res.json("Success");
+});
+
+app.get("/shutdown", (req, res) => {
+  functions.shutdown();
+
+  res.json("Shutdown complete");
+})

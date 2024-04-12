@@ -113,7 +113,7 @@ class PixelFunctions {
         }
 
         //Manually set brightness finish
-        await this.fillSections(currentColor);
+        await this.fillSections(colorFinish);
     }
 
     async shutdown () {

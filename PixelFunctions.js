@@ -24,7 +24,8 @@ class PixelFunctions {
             }
             
             mappedSection.pixels.forEach((pixel) => {
-                controllerMap[controllerName].pixelSet.push({s: mappedSection.strip, 
+                controllerMap[controllerName].pixelSet.push({
+                    s: mappedSection.strip, 
                     p: pixel, 
                     r: Math.round(color.r * color.brightness), 
                     g: Math.round(color.g * color.brightness), 
@@ -114,6 +115,23 @@ class PixelFunctions {
 
         //Manually set brightness finish
         await this.fillSections(colorFinish);
+    }
+
+    async confetti() {
+        const map = this.pixelMap.getPixelMap();
+
+        var E2Route1 = [];
+        var E2Route2 = [];
+        var E2Route3 = [];
+
+        E2Route1.push(map.A[1].D);
+
+        for (var i = 0; i < E2Route1.length; i++) {
+            for (var j = 0; j < E2Route1[i].pixels.length; j++) {
+                await E2Route1[i].controller.setPixels([{s: E2Route1[i].strip, p: E2Route1[i].pixels[j], r: 168, g: 100, b: 253}], true);
+                await NeoPixel.wait(refreshSpeed);
+            }
+        }
     }
 
     async shutdown () {

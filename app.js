@@ -44,8 +44,13 @@ app.post("/fullGrid", (req, res) => {
   res.json("Success");
 });
 
+app.get("/confetti", (req, res) => {
+  functions.confetti();
+  res.json("Confetti started");
+});
+
 app.get("/shutdown", (req, res) => {
   functions.shutdown();
 
   res.json("Shutdown complete");
-})
+});

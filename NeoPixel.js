@@ -77,12 +77,14 @@ class NeoPixel extends EventEmitter {
       let stripReset = [false, false, false, false];
       let resetCount = 0;
       if (reset) {
-        for (let i = 0; i < stripReset.length; i++){
-          if(arrayOfColors.some(item => item.s === i || item.strip === i)) {
-              stripReset[i] = true;
-              resetCount++;
+        arrayOfColors.forEach((val) => {
+          var strip = Number(val.s);
+
+          if (!stripReset[strip]) {
+            stripReset[strip] = true;
+            resetCount++;
           }
-        }
+        });
       }
 
       //Setup outbound frame buffer size based on:

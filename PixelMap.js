@@ -1,8 +1,8 @@
 const NeoPixel = require('./NeoPixel');
 
-const SERVER1 = 'tcp://172.16.56.31:800'
-const SERVER2 = 'tcp://172.16.56.32:800'
-const SERVER3 = 'tcp://172.16.56.33:800'
+const SERVER1 = 'tcp://172.16.96.31:800'
+const SERVER2 = 'tcp://172.16.96.32:800'
+const SERVER3 = 'tcp://172.16.96.33:800'
 
 const stripA = "0";
 const stripB = "1";
@@ -49,6 +49,10 @@ class PixelMap {
             this.neopixel2.toggleRelayOff(i);
             this.neopixel3.toggleRelayOff(i);
         }
+
+        this.neopixel1.disconnect();
+        this.neopixel2.disconnect();
+        this.neopixel3.disconnect();
     }
 
     async setupControllers() {

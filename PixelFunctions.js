@@ -124,14 +124,39 @@ class PixelFunctions {
         var E2Route2 = [];
         var E2Route3 = [];
 
-        E2Route1.push(map.A[1].D);
+        E2Route1.push({pixelSet: map.A[1].D, invert: true, name: "1"});
+        E2Route1.push({pixelSet: map.B[1].D, invert: true, name: "2"});
+        E2Route1.push({pixelSet: map.B[1].C, invert: true, name: "3"});
 
-        for (var i = 0; i < E2Route1.length; i++) {
-            for (var j = 0; j < E2Route1[i].pixels.length; j++) {
-                await E2Route1[i].controller.setPixels([{s: E2Route1[i].strip, p: E2Route1[i].pixels[j], r: 168, g: 100, b: 253}], true);
-                await NeoPixel.wait(refreshSpeed);
+       this.runRoute(E2Route1, {r: 255, g: 255, b: 255, brightness: 1});
+    }
+
+    runRoute(route, color) {
+        route.forEach((section) => {
+            var start = section.invert ? section.pixelSet.pixels.length : 0;
+            var finish = section.invert ? 0 : section.pixelSet.pixels.length;
+    
+            if (start < finish) {
+                for (var i = start; i < finish; i++) {
+                    this.setRoutePixels(section, i, color);
+        
+                }
+            } else {
+                for (var i = start; i > finish; i--) {
+                    this.setRoutePixels(section, i, color);
+                    console.log(section.name);
+                }
             }
-        }
+        });
+    }
+
+    setRoutePixels(section, index, color) {
+        section.pixelSet.controller.setPixels([{
+            s: section.pixelSet.strip, 
+            p: section.pixelSet.pixels[index],
+            r: Math.round(color.r * color.brightness), 
+            g: Math.round(color.g * color.brightness), 
+            b: Math.round(color.b * color.brightness)}], true);
     }
 
     async shutdown () {

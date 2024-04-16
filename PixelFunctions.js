@@ -135,76 +135,80 @@ class PixelFunctions {
         E2Route2.push({pixelSet: map.A[2].D, invert: true});
         E2Route2.push({pixelSet: map.A[3].C, invert: true});
         E2Route2.push({pixelSet: map.B[3].D, invert: true});
+        E2Route2.push({pixelSet: map.B[4].C, invert: false});
 
         E3Route1.push({pixelSet: map.H[1].B, invert: false});
         E3Route1.push({pixelSet: map.G[1].B, invert: false});
         E3Route1.push({pixelSet: map.G[1].A, invert: false});
+        E3Route1.push({pixelSet: map.F[1].D, invert: false});
 
         E3Route2.push({pixelSet: map.H[1].D, invert: false});
         E3Route2.push({pixelSet: map.H[2].A, invert: true});
         E3Route2.push({pixelSet: map.G[2].D, invert: false});
+        E3Route2.push({pixelSet: map.F[2].D, invert: false});
         
         E4Route1.push({pixelSet: map.H[5].D, invert: false});
         E4Route1.push({pixelSet: map.G[5].C, invert: false});
-        E4Route1.push({pixelSet: map.H[5].C, invert: true});
+        E4Route1.push({pixelSet: map.G[4].C, invert: true});
+        E4Route1.push({pixelSet: map.G[3].C, invert: true});
 
         E4Route2.push({pixelSet: map.H[5].B, invert: false});
         E4Route2.push({pixelSet: map.H[4].A, invert: false});
         E4Route2.push({pixelSet: map.G[4].B, invert: false});
+        E4Route2.push({pixelSet: map.F[4].B, invert: false});
 
-        var routeSet1 = [
-            {route: E2Route1, color: {r: 255, g: 0, b: 0, brightness: 1}},
-            {route: E2Route2, color: {r: 0, g: 255, b: 0, brightness: 1}},
-            {route: E3Route1, color: {r: 255, g: 0, b: 0, brightness: 1}},
-            {route: E3Route2, color: {r: 168, g: 100, b: 253, brightness: 1}},
-            {route: E4Route1, color: {r: 255, g: 80, b: 90, brightness: 1}},
-            {route: E4Route2, color: {r: 120, g: 255, b: 68, brightness: 1}}
+        //set 2
+        var E2Route3 = [
+            {pixelSet: map.A[1].D, invert: false},
+            {pixelSet: map.B[1].D, invert: false},
+            {pixelSet: map.B[2].C, invert: false},
+            {pixelSet:}
+        ];
+
+        var E2Route4 = [
+            {pixelSet: map.A[2].D, invert: false},
+            {pixelSet: map.B[2].D, invert: true},
+            {pixelSet: map.C[2].D, invert: true},
+            {pixelSet: map.C[2].C, invert: false}
+        ];
+
+        var E2Route5 = [
+            {pixelSet: map.A[3].D, invert: true},
+            {pixelSet: map.B[3].D, invert: false},
+            {pixelSet: map.C[3].D, invert: true}
+        ];
+
+        var E3Route3 = [
+            {pixelSet: map.H[1].C, invert: true},
+            {pixelSet: map.H[2].C, invert: true},
+            {pixelSet: map.H[3].C, invert: true}
+        ];
+
+        var E3Route4 = [
+            {pixelSet: map.H[1].B, invert: false},
+            {pixelSet: map.G[1].B, invert: false},
+            {pixelSet: map.G[1].A, invert: true},
+            {pixelSet: map.G[2].A, invert: false}
+        ];
+
+        var routeSet = [
+            {route: E2Route1, color: {r: 255, g: 0, b: 0, brightness: 1}, start: 0},
+            {route: E2Route2, color: {r: 0, g: 255, b: 0, brightness: 1}, start: 0},
+            {route: E3Route1, color: {r: 255, g: 0, b: 0, brightness: 1}, start: 0},
+            {route: E3Route2, color: {r: 168, g: 100, b: 253, brightness: 1}, start: 0},
+            {route: E4Route1, color: {r: 255, g: 80, b: 90, brightness: 1}, start: 0},
+            {route: E4Route2, color: {r: 120, g: 255, b: 68, brightness: 1}, start: 0},
+
+            //second set
+            {route: E2Route3, color: {r: 255, g: 153, b: 0, brightness: 1}, start: 2},
+            {route: E2Route4, color: {r: 255, g: 0, b: 255, brightness: 1}, start: 2},
+            {route: E2Route5, color: {r: 0, g: 255, b: 255, brightness: 1}, start: 2},
+            {route: E3Route3, color: {r: 255, g: 255, b: 255, brightness: 1}, start: 2},
+            {route: E3Route4, color: {r: 0, g: 0, b: 255, brightness: 1}, start: 2}
         ]
+
         
-        this.runRouteFrames(this.calculateRouteFrames(routeSet1, 4, true));
-
-        setTimeout(() => {
-            var E2Route3 = [
-                {pixelSet: map.A[1].D, invert: false},
-                {pixelSet: map.B[1].D, invert: false},
-                {pixelSet: map.C[1].D, invert: false}
-            ];
-
-            var E2Route4 = [
-                {pixelSet: map.A[2].D, invert: false},
-                {pixelSet: map.B[2].D, invert: true},
-                {pixelSet: map.C[2].D, invert: true}
-            ];
-
-            var E2Route5 = [
-                {pixelSet: map.A[3].D, invert: true},
-                {pixelSet: map.B[3].D, invert: false},
-                {pixelSet: map.C[3].D, invert: true}
-            ];
-
-            var E3Route3 = [
-                {pixelSet: map.H[1].C, invert: true},
-                {pixelSet: map.H[2].C, invert: true},
-                {pixelSet: map.H[3].C, invert: true}
-            ];
-
-            var E3Route4 = [
-                {pixelSet: map.H[1].B, invert: false},
-                {pixelSet: map.G[1].B, invert: false},
-                {pixelSet: map.G[1].A, invert: true},
-                {pixelSet: map.G[2].A, invert: false}
-            ]
-
-            var routeSet2 = [
-                {route: E2Route3, color: {r: 255, g: 153, b: 0, brightness: 1}},
-                {route: E2Route4, color: {r: 255, g: 0, b: 255, brightness: 1}},
-                {route: E2Route5, color: {r: 0, g: 255, b: 255, brightness: 1}},
-                {route: E3Route3, color: {r: 255, g: 255, b: 255, brightness: 1}},
-                {route: E3Route4, color: {r: 0, g: 0, b: 255, brightness: 1}}
-            ]
-
-            this.runRouteFrames(this.calculateRouteFrames(routeSet2, 3, true));
-        }, 500);
+        this.runRouteFrames(this.calculateRouteFrames(routeSet, true));
     }
 
     async runRouteFrames(frameArray){
@@ -216,42 +220,50 @@ class PixelFunctions {
         }
     }
 
-    calculateRouteFrames(routeSet, largestRouteSize, reset) {
+    calculateRouteFrames(routeSet, reset) {
         var routeFrames = [];
-
+        var largestStartValue = 0;
         routeSet.forEach((value) => {
             value.route.forEach((route) => {
                 if (route.invert) {
                     route.pixelSet.pixels = route.pixelSet.pixels.reverse();
                 }
-            })
+            });
+
+            largestStartValue = value.start > largestStartValue ? value.start : largestStartValue;
         });
-        var count = 0;
+
+        var largestRouteSize = 0;
+        routeSet.forEach((value) => {
+            if (value.start === largestStartValue) {
+                largestRouteSize = value.route.length > largestRouteSize ? value.route.length : largestRouteSize;
+            }
+        });
+
+        largestRouteSize += largestStartValue;
+
         for (var j = 0; j < largestRouteSize; j++) {
             for (var i = 0; i < 40; i++){
                 var controllerMap = {};
                 var newPixels = false;
                 routeSet.forEach((value) => {
 
-                    if (j < value.route.length) {
-                        var controllerName = value.route[j].pixelSet.controller.getName();
+                    if ((j - value.start) < value.route.length && j >= value.start) {
+                        var route = value.route[j - value.start];
+                        var controllerName = route.pixelSet.controller.getName();
 
                         if (!controllerMap[controllerName]) {
                             controllerMap[controllerName] = {};
                             controllerMap[controllerName].pixelSet = [];
-                            controllerMap[controllerName].controller = value.route[j].pixelSet.controller;
+                            controllerMap[controllerName].controller = route.pixelSet.controller;
                         }
 
-                        if (i < value.route[j].pixelSet.pixels.length) {
+                        if (i < route.pixelSet.pixels.length) {
                             newPixels = true;
-                        
-                            if (controllerName === 'neopixel3' && value.route[j].pixelSet.strip === "2" && value.route[j].pixelSet.pixels[i] === 137) {
-                                console.log('hi');
-                            }
 
                             controllerMap[controllerName].pixelSet.push({
-                                s: value.route[j].pixelSet.strip,
-                                p: value.route[j].pixelSet.pixels[i],
+                                s: route.pixelSet.strip,
+                                p: route.pixelSet.pixels[i],
                                 r: Math.round(value.color.r * value.color.brightness), 
                                 g: Math.round(value.color.g * value.color.brightness), 
                                 b: Math.round(value.color.b * value.color.brightness)
@@ -259,26 +271,26 @@ class PixelFunctions {
 
                             if (i > 0 && reset) {
                                 controllerMap[controllerName].pixelSet.push({
-                                    s: value.route[j].pixelSet.strip,
-                                    p: value.route[j].pixelSet.pixels[i-1],
+                                    s: route.pixelSet.strip,
+                                    p: route.pixelSet.pixels[i-1],
                                     r: 0,
                                     g: 0,
                                     b: 0
                                 });
                             }
 
-                            if (i === 0 && j > 0 && reset) {
-                                var prevController = value.route[j-1].pixelSet.controller.getName();
+                            if (i === 0 && j > 0 && reset && j !== value.start) {
+                                var prevController = value.route[j - value.start - 1].pixelSet.controller.getName();
 
                                 if (!controllerMap[prevController]) {
                                     controllerMap[prevController] = {};
                                     controllerMap[prevController].pixelSet = [];
-                                    controllerMap[prevController].controller = value.route[j-1].pixelSet.controller;
+                                    controllerMap[prevController].controller = value.route[j - value.start - 1].pixelSet.controller;
                                 }
                                 
                                 controllerMap[prevController].pixelSet.push({
-                                    s: value.route[j-1].pixelSet.strip,
-                                    p: value.route[j-1].pixelSet.pixels[value.route[j-1].pixelSet.pixels.length-1],
+                                    s: value.route[j - value.start - 1].pixelSet.strip,
+                                    p: value.route[j - value.start - 1].pixelSet.pixels[value.route[j - value.start - 1].pixelSet.pixels.length-1],
                                     r: 0,
                                     g: 0,
                                     b: 0
@@ -288,7 +300,6 @@ class PixelFunctions {
                     }
                 });
                 if (newPixels) {
-                    count++;
                     routeFrames.push(controllerMap);
                 }
             }

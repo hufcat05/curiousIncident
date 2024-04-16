@@ -121,7 +121,7 @@ class NeoPixel extends EventEmitter {
       this.cbs.push({ time: startTime, ack: 'apply', resolve, reject });
       this.transport.write(buffer);
       this.latestPixelState = arrayOfColors;
-    })
+    });
   }
 
   //Method: fill

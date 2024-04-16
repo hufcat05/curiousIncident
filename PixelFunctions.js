@@ -149,8 +149,8 @@ class PixelFunctions {
         
         E4Route1.push({pixelSet: map.H[5].D, invert: false});
         E4Route1.push({pixelSet: map.G[5].C, invert: false});
-        E4Route1.push({pixelSet: map.G[4].C, invert: true});
-        E4Route1.push({pixelSet: map.G[3].C, invert: true});
+        E4Route1.push({pixelSet: map.G[4].C, invert: false});
+        E4Route1.push({pixelSet: map.G[3].C, invert: false});
 
         E4Route2.push({pixelSet: map.H[5].B, invert: false});
         E4Route2.push({pixelSet: map.H[4].A, invert: false});
@@ -162,7 +162,7 @@ class PixelFunctions {
             {pixelSet: map.A[1].D, invert: false},
             {pixelSet: map.B[1].D, invert: false},
             {pixelSet: map.B[2].C, invert: false},
-            {pixelSet:}
+            {pixelSet: map.B[3].C, invert: false}
         ];
 
         var E2Route4 = [
@@ -175,13 +175,15 @@ class PixelFunctions {
         var E2Route5 = [
             {pixelSet: map.A[3].D, invert: true},
             {pixelSet: map.B[3].D, invert: false},
-            {pixelSet: map.C[3].D, invert: true}
+            {pixelSet: map.C[3].D, invert: true},
+            {pixelSet: map.C[4].C, invert: true}
         ];
 
         var E3Route3 = [
             {pixelSet: map.H[1].C, invert: true},
             {pixelSet: map.H[2].C, invert: true},
-            {pixelSet: map.H[3].C, invert: true}
+            {pixelSet: map.H[3].C, invert: true},
+            {pixelSet: map.H[3].D, invert: false}
         ];
 
         var E3Route4 = [
@@ -190,6 +192,68 @@ class PixelFunctions {
             {pixelSet: map.G[1].A, invert: true},
             {pixelSet: map.G[2].A, invert: false}
         ];
+
+        var E4Route3 = [
+            {pixelSet: map.H[4].D, invert: false},
+            {pixelSet: map.G[4].D, invert: false},
+            {pixelSet: map.F[4].D, invert: false},
+            {pixelSet: map.F[5].A, invert: false}
+        ];
+
+        var E4Route4 = [
+            {pixelSet: map.H[5].D, invert: false},
+            {pixelSet: map.G[5].D, invert: false},
+            {pixelSet: map.G[5].A, invert: true},
+            {pixelSet: map.G[4].A, invert: true}
+        ];
+
+        //set 3
+        var E2Route6 = [
+            {pixelSet: map.A[1].A, invert: true},
+            {pixelSet: map.A[2].A, invert: true},
+            {pixelSet: map.A[3].A, invert: true},
+            {pixelSet: map.A[3].D, invert: true}
+        ];
+
+        var E2Route7 = [
+            {pixelSet: map.A[3].D, invert: true},
+            {pixelSet: map.B[3].A, invert: false},
+            {pixelSet: map.B[2].A, invert: false},
+            {pixelSet: map.B[2].B, invert: true}
+        ];
+
+        var E3Route5 = [
+            {pixelSet: map.H[1].D, invert: false},
+            {pixelSet: map.G[1].D, invert: false},
+            {pixelSet: map.G[1].A, invert: true},
+            {pixelSet: map.G[2].A, invert: true}
+        ];
+
+        var E3Route6 = [
+            {pixelSet: map.H[2].D, invert: false},
+            {pixelSet: map.H[3].A, invert: true},
+            {pixelSet: map.F[3].D, invert: false},
+            {pixelSet: map.F[3].A, invert: false}
+        ];
+
+        var E4Route5 = [
+            {pixelSet: map.H[5].D, invert: false},
+            {pixelSet: map.G[5].D, invert: false},
+            {pixelSet: map.F[5].D, invert: false},
+            {pixelSet: map.F[5].A, invert: false}
+        ];
+
+        var E4Route6 = [
+            {pixelSet: map.H[5].B, invert: false},
+            {pixelSet: map.G[5].B, invert: false},
+            {pixelSet: map.F[5].B, invert: false}
+        ];
+
+        var E4Route7 = [
+            {pixelSet: map.H[4].B, invert: false},
+            {pixelSet: map.G[4].B, invert: false},
+            {pixelSet: map.F[4].B, invert: false}
+        ]
 
         var routeSet = [
             {route: E2Route1, color: {r: 255, g: 0, b: 0, brightness: 1}, start: 0},
@@ -204,8 +268,19 @@ class PixelFunctions {
             {route: E2Route4, color: {r: 255, g: 0, b: 255, brightness: 1}, start: 2},
             {route: E2Route5, color: {r: 0, g: 255, b: 255, brightness: 1}, start: 2},
             {route: E3Route3, color: {r: 255, g: 255, b: 255, brightness: 1}, start: 2},
-            {route: E3Route4, color: {r: 0, g: 0, b: 255, brightness: 1}, start: 2}
-        ]
+            {route: E3Route4, color: {r: 0, g: 0, b: 255, brightness: 1}, start: 2},
+            {route: E4Route3, color: {r: 168, g: 100, b: 0, brightness: 1}, start: 2},
+            {route: E4Route4, color: {r: 255, g: 0, b: 0, brightness: 1}, start: 2},
+
+            //third set
+            {route: E2Route6, color: {r: 255, g: 80, b: 90, brightness: 1}, start: 3},
+            {route: E2Route7, color: {r: 0, g: 255, b: 0, brightness: 1}, start: 3},
+            {route: E3Route5, color: {r: 0, g: 0, b: 255, brightness: 1}, start: 3},
+            {route: E3Route6, color: {r:255, g: 65, b: 0, brightness: 1}, start: 3},
+            {route: E4Route5, color: {r:255, g: 30, b: 255, brightness: 1}, start: 3},
+            {route: E4Route6, color: {r: 0, g: 255, b: 255, brightness: 1}, start: 3},
+            {route: E4Route7, color: {r: 255, g: 255, b: 255, brightness: 1}, start: 3}
+        ];
 
         
         this.runRouteFrames(this.calculateRouteFrames(routeSet, true));

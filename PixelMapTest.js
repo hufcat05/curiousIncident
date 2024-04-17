@@ -1,8 +1,8 @@
 const NeoPixel = require('./NeoPixel');
 
-const SERVERA = 'tcp://172.16.56.31:800'
-const SERVERB = 'tcp://172.16.56.32:800'
-const SERVERC = 'tcp://172.16.56.33:800'
+const SERVERA = 'tcp://172.16.96.31:800'
+const SERVERB = 'tcp://172.16.96.32:800'
+const SERVERC = 'tcp://172.16.96.33:800'
 const PAUSE = parseInt(process.env['PAUSE']) || 50
 const numPixels = 300;
 

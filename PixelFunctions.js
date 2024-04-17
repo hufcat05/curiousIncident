@@ -293,6 +293,11 @@ class PixelFunctions {
             }
             await NeoPixel.wait(10);
         }
+        this.pixelMap.getControllers().forEach((controller) => {
+            for (var i = 0; i < 4; i++){
+                this.sendFill(controller, i, {r: 0, g: 0, b: 0});
+            }
+        });
     }
 
     calculateRouteFrames(routeSet, reset) {
@@ -383,13 +388,39 @@ class PixelFunctions {
         return routeFrames;
     }
 
-    setRoutePixels(section, index, color) {
-        section.pixelSet.controller.setPixels([{
-            s: section.pixelSet.strip, 
-            p: section.pixelSet.pixels[index],
-            r: Math.round(color.r * color.brightness), 
-            g: Math.round(color.g * color.brightness), 
-            b: Math.round(color.b * color.brightness)}], true);
+    async chaosFloor(time) {
+        var controllers = this.pixelMap.getControllers();
+        var numPixels = 276;
+ 
+        var currTime = new Date().getMilliseconds();
+
+        while (new Date().getMilliseconds() < currTime+time) {
+        
+            //Sweep colors across each strip, every other strip in the opposite direction, only one pixel on at a time
+            for(let i = 0; i < numPixels; i++){
+                controllers[0].setPixels([
+                    { s: 0, p: i, r: 255, g: 0, b: 0 },
+                    { s: 1, p: (numPixels - i - 1), r: 0, g: 255, b: 0 },
+                    { s: 2, p: i, r: 0, g: 0, b: 255 },
+                    { s: 3, p: (numPixels - i - 1), r: 255, g: 255, b: 255 }
+                ], true);
+
+                controllers[1].setPixels([
+                    { s: 0, p: i, r: 255, g: 255, b: 0 },
+                    { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
+                    { s: 2, p: i, r: 0, g: 255, b: 255 },
+                    { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
+                ], true);
+
+                controllers[2].setPixels([
+                    { s: 0, p: i, r: 255, g: 255, b: 0 },
+                    { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
+                    { s: 2, p: i, r: 0, g: 255, b: 255 },
+                    { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
+                ], true);
+                await NeoPixel.wait(20);
+            }
+        }
     }
 
     async shutdown () {

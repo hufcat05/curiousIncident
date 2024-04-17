@@ -49,6 +49,14 @@ app.get("/confetti", (req, res) => {
   res.json("Confetti started");
 });
 
+app.post("/chaosFloor", (req, res) => {
+  var time = req.body.time;
+
+  functions.chaosFloor(time);
+  
+  res.json("Chaos floor started");
+});
+
 app.get("/shutdown", (req, res) => {
   functions.shutdown();
 

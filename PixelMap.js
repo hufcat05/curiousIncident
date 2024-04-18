@@ -219,7 +219,7 @@ class PixelMap {
         //D3
         sectionMap.d3a = sectionMap.c3c
         sectionMap.d3b = sectionMap.d2d;
-        sectionMap.d3c = {controller: {setPixels: () => {}}, strip: "0", pixels: []};
+        sectionMap.d3c = {controller: {setPixels: () => {}, getName: () => {return "nac"}}, strip: "0", pixels: []};
         sectionMap.d3d = this.buildSection(this.neopixel3, stripA, 110, 136);
 
         //D4
@@ -249,7 +249,7 @@ class PixelMap {
         sectionMap.e2d = this.buildSection(this.neopixel3, stripB, 82, 109);
         
         //E3
-        sectionMap.e3a = {controller: {setPixels: () => {}}, strip: "0", pixels: []};
+        sectionMap.e3a = {controller: {setPixels: () => {}, getName: () => {return "nac"}}, strip: "0", pixels: []};
         sectionMap.e3b = sectionMap.e2d;
         sectionMap.e3c = this.buildSection(this.neopixel1, stripC, 164, 191);
         sectionMap.e3d = this.buildSection(this.neopixel3, stripA, 82, 109);

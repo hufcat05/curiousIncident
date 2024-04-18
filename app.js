@@ -57,6 +57,47 @@ app.post("/chaosFloor", (req, res) => {
   res.json("Chaos floor started");
 });
 
+app.post("/stopChaosFloor", (req, res) => {
+  functions.stopChaosFloor();
+  res.json("Chaos floor stopped");
+});
+
+app.get("/spaceBallet", (req, res) => {
+  functions.spaceBallet();
+  res.json("Space Ballet Started");
+});
+
+app.get("/stopSpaceBallet", (req, res) => {
+  functions.stopSpaceBallet();
+  res.json("Space Ballet stopped");
+});
+
+app.get("/trainPath", (req, res) => {
+  functions.trainPath();
+  res.json("Town Center Path Started");
+});
+
+app.get("/startYellowPulseLine", (req, res) => {
+  functions.startYellowPulseLine();
+  res.json("Yellow pulse line started");
+});
+
+app.get("/stopYellowPulseLine", (req, res) => {
+  functions.stopYellowPulseLine();
+  res.json("Yello pulse line stopped");
+});
+
+app.post("/startTrainSequence", (req, res) => {
+  var trainStopE4 = req.body.trainStopE4;
+  functions.runTrainSequence(trainStopE4);
+  res.json("train sequence started");
+});
+
+app.get("/trainExitsE4", (req, res) => {
+  functions.trainExits();
+  res.json("train exiting");
+});
+
 app.get("/shutdown", (req, res) => {
   functions.shutdown();
 

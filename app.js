@@ -87,15 +87,31 @@ app.get("/stopYellowPulseLine", (req, res) => {
   res.json("Yello pulse line stopped");
 });
 
-app.post("/startTrainSequence", (req, res) => {
+app.post("/trainComing", (req, res) => {
   var trainStopE4 = req.body.trainStopE4;
-  functions.runTrainSequence(trainStopE4);
+  functions.runTrainComing(trainStopE4);
   res.json("train sequence started");
+});
+
+app.post("/trainLeaves", (req, res) => {
+  var trainStopE4 = req.body.trainStopE4;
+  functions.runTrainLeaves(trainStopE4);
+  res.json("train leaving started");
 });
 
 app.get("/trainExitsE4", (req, res) => {
   functions.trainExits();
   res.json("train exiting");
+});
+
+app.get("/snakeFloor", (req, res) => {
+  functions.startSnakeFloor();
+  res.json("snake floor started");
+});
+
+app.get("/stopSnakeFloor", (req, res) => {
+  functions.stopSnakeFloor();
+  res.json("snake floor stopped");
 });
 
 app.get("/shutdown", (req, res) => {

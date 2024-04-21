@@ -10,6 +10,7 @@ class PixelFunctions {
         this.chaosFloorRun = false;
         this.spaceBalletRun = false;
         this.yellowPulseLineRun = false;
+        this.snakeFloorRun = false;
     }
     
     async lightSections(sections, color, reset) {
@@ -362,14 +363,15 @@ class PixelFunctions {
         ];
 
         var routeSet = [
-            {route: path1, color: {r: 255, g: 255, b: 0, brightness: 1}, start: 0}
+            {route: path1, color: {r: 255, g: 150, b: 0, brightness: 1}, start: 0}
         ];
 
-        var frameArray = this.calculateRouteFrames(routeSet, true);
+        await this.lightSections([["D", "2", "D"], ["E","2","D"]], {r: 60, g: 30, b:0, brightness: 1});
+        var frameArray = this.calculateRouteFrames(routeSet, true, {r: 60, g: 30, b: 0});
 
         while (this.yellowPulseLineRun) {
             await this.runRouteFrames(frameArray, 20, false);
-            await this.lightSections([["D", "2", "D"], ["E","2","D"]], {r: 0, g: 0, b:0, brightness: 0});
+            await this.lightSections([["D", "2", "D"], ["E","2","D"]], {r: 60, g: 30, b:0, brightness: 1});
             await NeoPixel.wait(2500);
         }
 
@@ -390,7 +392,7 @@ class PixelFunctions {
         }, 10);
     }
 
-    async runTrainSequence(trainStopE4) {
+    async runTrainComing(trainStopE4) {
         var map = this.pixelMap.getPixelMap();
 
         var BPath1 = [
@@ -501,8 +503,70 @@ class PixelFunctions {
             doorSection.controller.setPixels(doorFrames[i], false);
             await NeoPixel.wait(20);
         }
+    }
 
-        await NeoPixel.wait(3000);
+    async runTrainLeaves(trainStopE4) {
+        var map = this.pixelMap.getPixelMap();
+
+        var doorFrames = [];
+        var doorSection = map.C[3].D;
+        
+        doorFrames.push([
+            {s: doorSection.strip, p: 150, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 151, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 149, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 152, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 148, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 153, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 147, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 154, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 146, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 155, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 145, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 156, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 144, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 157, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 143, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 158, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 142, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 159, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 141, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 160, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 140, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 161, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 139, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 162, r: 0, g: 0, b: 0}
+        ]);
+        doorFrames.push([
+            {s: doorSection.strip, p: 138, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 163, r: 0, g: 0, b: 0}
+        ]);        
+        doorFrames.push([
+            {s: doorSection.strip, p: 137, r: 0, g: 0, b: 0},
+            {s: doorSection.strip, p: 164, r: 0, g: 0, b: 0}
+        ]);
 
         doorFrames.reverse();
         doorFrames.forEach((frame) => {
@@ -517,7 +581,7 @@ class PixelFunctions {
             await NeoPixel.wait(20);
         }
 
-        await NeoPixel.wait(1000);
+        await NeoPixel.wait(500);
  
         await this.trainExits(trainStopE4);
     }
@@ -585,6 +649,81 @@ class PixelFunctions {
         });
     }
 
+    async startSnakeFloor() {
+        const map = this.pixelMap.getPixelMap();
+        this.snakeFloorRun = true;
+
+        var snakePath = [
+            {pixelSet: map.F[2].C, invert: true},
+            {pixelSet: map.F[2].B, invert: false},
+            {pixelSet: map.E[2].B, invert: false},
+            {pixelSet: map.D[2].B, invert: false},
+            {pixelSet: map.D[2].A, invert: true},
+            {pixelSet: map.C[2].D, invert: false},
+            {pixelSet: map.C[2].A, invert: true},
+            {pixelSet: map.B[2].B, invert: false},
+            {pixelSet: map.B[2].A, invert: true},
+            {pixelSet: map.B[3].A, invert: true},
+            {pixelSet: map.B[4].A, invert: true},
+            {pixelSet: map.B[4].D, invert: true},
+            {pixelSet: map.C[4].D, invert: true},
+            {pixelSet: map.C[4].C, invert: false},
+            {pixelSet: map.D[4].B, invert: true},
+            {pixelSet: map.E[4].B, invert: true},
+            {pixelSet: map.E[4].C, invert: false},
+            {pixelSet: map.F[4].D, invert: true},
+            {pixelSet: map.F[4].C, invert: true},
+            {pixelSet: map.F[3].C, invert: true}
+        ];
+
+        var snakePath2 = [
+            {pixelSet: map.F[2].C, invert: false},
+            {pixelSet: map.F[2].B, invert: false},
+            {pixelSet: map.E[2].B, invert: false},
+            {pixelSet: map.D[2].B, invert: false},
+            {pixelSet: map.D[2].A, invert: false},
+            {pixelSet: map.C[2].D, invert: false},
+            {pixelSet: map.C[2].A, invert: false},
+            {pixelSet: map.B[2].B, invert: false},
+            {pixelSet: map.B[2].A, invert: false},
+            {pixelSet: map.B[3].A, invert: false},
+            {pixelSet: map.B[4].A, invert: false},
+            {pixelSet: map.B[4].D, invert: false},
+            {pixelSet: map.C[4].D, invert: false},
+            {pixelSet: map.C[4].C, invert: false},
+            {pixelSet: map.D[4].B, invert: false},
+            {pixelSet: map.E[4].B, invert: false},
+            {pixelSet: map.E[4].C, invert: false},
+            {pixelSet: map.F[4].D, invert: false},
+            {pixelSet: map.F[4].C, invert: false},
+            {pixelSet: map.F[3].C, invert: false}
+        ];
+
+        var routeSet = [
+            {route: snakePath, color: {r: 255, g: 0, b: 0, brightness: 1}, start: 0},
+            {route: snakePath2, color: {r: 0, g: 0, b: 0, brightness: 0}, start: 7}
+        ];
+
+        var snakeFrameArray = this.calculateRouteFrames(routeSet, false);
+
+        while (this.snakeFloorRun) {
+            await this.runRouteFrames(snakeFrameArray, 20, false);
+            this.clearFloor();
+        }
+
+        routeSet.forEach((value) => {
+            value.route.forEach((route) => {
+                if (route.invert) {
+                    route.pixelSet.pixels = route.pixelSet.pixels.reverse();
+                }
+            });
+        });
+    }
+
+    async stopSnakeFloor() {
+        this.snakeFloorRun = false;
+    }
+
     deepCopy(obj) {
         return JSON.parse(JSON.stringify(obj));
     }
@@ -609,9 +748,10 @@ class PixelFunctions {
         });
     }
 
-    calculateRouteFrames(routeSet, reset) {
+    calculateRouteFrames(routeSet, reset, resetColor) {
         var routeFrames = [];
         var largestStartValue = 0;
+        var replaceColor = resetColor ? resetColor : {r: 0, g: 0, b: 0};
         routeSet.forEach((value) => {
             value.route.forEach((route) => {
                 if (route.invert) {
@@ -662,9 +802,9 @@ class PixelFunctions {
                                 controllerMap[controllerName].pixelSet.push({
                                     s: route.pixelSet.strip,
                                     p: route.pixelSet.pixels[i-1],
-                                    r: 0,
-                                    g: 0,
-                                    b: 0
+                                    r: replaceColor.r,
+                                    g: replaceColor.g,
+                                    b: replaceColor.b
                                 });
                             }
 
@@ -680,9 +820,9 @@ class PixelFunctions {
                                 controllerMap[prevController].pixelSet.push({
                                     s: value.route[j - value.start - 1].pixelSet.strip,
                                     p: value.route[j - value.start - 1].pixelSet.pixels[value.route[j - value.start - 1].pixelSet.pixels.length-1],
-                                    r: 0,
-                                    g: 0,
-                                    b: 0
+                                    r: replaceColor.r,
+                                    g: replaceColor.g,
+                                    b: replaceColor.b
                                 });
                             }
                         }
@@ -872,7 +1012,7 @@ class PixelFunctions {
     async stopSpaceBallet() {
         this.turnOffSpaceBallet();
 
-        this.fadeFill({r: 0, g: 0, b: 50, brightness: 1}, {r: 0, g: 0, b: 50, brightness: 0}, 1500);
+        this.fillSections({r: 0, g: 0, b: 0, brightness: 0});
     }
 
     async turnOffSpaceBallet() {

@@ -11,6 +11,9 @@ class PixelFunctions {
         this.spaceBalletRun = false;
         this.yellowPulseLineRun = false;
         this.snakeFloorRun = false;
+        this.pulseFloorRun = false;
+        this.glitterFloorRun = false;
+        this.curtainCallRun = false;
     }
     
     async lightSections(sections, color, reset) {
@@ -720,6 +723,295 @@ class PixelFunctions {
         });
     }
 
+    async pulseFloorOutward() {
+        const map = this.pixelMap.getPixelMap();
+        this.pulseFloorRun = true;
+
+        this.fadeFill({r: 255, g: 255, b: 255, brightness: 0}, {r: 255, g: 255, b: 255, brightness: .25}, 1000);
+
+        await NeoPixel.wait(2000);
+
+        var colorVariance = 1;
+
+        while (this.pulseFloorRun) {
+            var r = 255 * colorVariance;
+            var g = 255;
+            var b = 255 * colorVariance;
+            var routeSets = this.setRowsToPathsAndColor({r: r, g: g, b: b, brightness: 1});
+
+            var pulseAToCFrameArray = this.calculateRouteFrames(routeSets[0], true, {
+                r: Math.round(r * .25),
+                g: Math.round(g * .25),
+                b: Math.round(b * .25)});
+            var pulseBToDFrameArray = this.calculateRouteFrames(routeSets[1], true, {
+                r: Math.round(r * .25),
+                g: Math.round(g * .25),
+                b: Math.round(b * .25)});
+
+            await this.runRouteFrames(pulseAToCFrameArray, 10, false);
+            await this.runRouteFrames(pulseBToDFrameArray, 10, false);
+            await NeoPixel.wait(500);
+
+            colorVariance = colorVariance - .1;
+
+            if (colorVariance <= 0.1) {
+                this.pulseFloorRun = false;
+            }
+
+            routeSets[0].forEach((value) => {
+                value.route.forEach((route) => {
+                    if (route.invert) {
+                        route.pixelSet.pixels = route.pixelSet.pixels.reverse();
+                    }
+                });
+            });
+
+            routeSets[1].forEach((value) => {
+                value.route.forEach((route) => {
+                    if (route.invert) {
+                        route.pixelSet.pixels = route.pixelSet.pixels.reverse();
+                    }
+                });
+            });
+        }
+    }
+
+    setRowsToPathsAndColor(color) {
+        const map = this.pixelMap.getPixelMap();
+
+        var row1BToAPath = [
+            {pixelSet: map.D[1].B, invert: false},
+            {pixelSet: map.C[1].B, invert: false},
+            {pixelSet: map.B[1].B, invert: false},
+            {pixelSet: map.A[1].B, invert: false}
+        ];
+
+        var row2BToAPath = [
+            {pixelSet: map.D[2].B, invert: false},
+            {pixelSet: map.C[2].B, invert: false},
+            {pixelSet: map.B[2].B, invert: false},
+            {pixelSet: map.A[2].B, invert: false}
+        ];
+
+        var row3BToAPath = [
+            {pixelSet: map.D[3].B, invert: false},
+            {pixelSet: map.C[3].B, invert: false},
+            {pixelSet: map.B[3].B, invert: false},
+            {pixelSet: map.A[3].B, invert: false}
+        ];
+
+        var row4BToAPath = [
+            {pixelSet: map.D[4].B, invert: false},
+            {pixelSet: map.C[4].B, invert: false},
+            {pixelSet: map.B[4].B, invert: false},
+            {pixelSet: map.A[4].B, invert: false}
+        ];
+
+        var row5BToAPath = [
+            {pixelSet: map.D[5].B, invert: false},
+            {pixelSet: map.C[5].B, invert: false},
+            {pixelSet: map.B[5].B, invert: false},
+            {pixelSet: map.A[5].B, invert: false}
+        ];
+
+        var row5DToAPath = [
+            {pixelSet: map.D[5].D, invert: false},
+            {pixelSet: map.C[5].D, invert: false},
+            {pixelSet: map.B[5].D, invert: false},
+            {pixelSet: map.A[5].D, invert: false}
+        ];
+
+        var row1BToCPath = [
+            {pixelSet: map.E[1].B, invert: true},
+            {pixelSet: map.F[1].B, invert: true},
+            {pixelSet: map.G[1].B, invert: true},
+            {pixelSet: map.H[1].B, invert: true}
+        ];
+
+        var row2BToCPath = [
+            {pixelSet: map.E[2].B, invert: true},
+            {pixelSet: map.F[2].B, invert: true},
+            {pixelSet: map.G[2].B, invert: true},
+            {pixelSet: map.H[2].B, invert: true}
+        ];
+
+        var row3BToCPath = [
+            {pixelSet: map.E[3].B, invert: true},
+            {pixelSet: map.F[3].B, invert: true},
+            {pixelSet: map.G[3].B, invert: true},
+            {pixelSet: map.H[3].B, invert: true}
+        ];
+
+        var row4BToCPath = [
+            {pixelSet: map.E[4].B, invert: true},
+            {pixelSet: map.F[4].B, invert: true},
+            {pixelSet: map.G[4].B, invert: true},
+            {pixelSet: map.H[4].B, invert: true}
+        ];
+
+        var row5BToCPath = [
+            {pixelSet: map.E[5].B, invert: true},
+            {pixelSet: map.F[5].B, invert: true},
+            {pixelSet: map.G[5].B, invert: true},
+            {pixelSet: map.H[5].B, invert: true}
+        ];
+
+        var row5DToCPath = [
+            {pixelSet: map.E[5].D, invert: true},
+            {pixelSet: map.F[5].D, invert: true},
+            {pixelSet: map.G[5].D, invert: true},
+            {pixelSet: map.H[5].D, invert: true}
+        ];
+
+        //next set
+        var rowH3CtoDPath = [
+            {pixelSet: map.H[3].C, invert: true},
+            {pixelSet: map.H[4].C, invert: true},
+            {pixelSet: map.H[5].C, invert: true}
+        ];
+
+        var rowG3CtoDPath = [
+            {pixelSet: map.G[3].C, invert: true},
+            {pixelSet: map.G[4].C, invert: true},
+            {pixelSet: map.G[5].C, invert: true}
+        ];
+
+        var rowF3CtoDPath = [
+            {pixelSet: map.F[3].C, invert: false},
+            {pixelSet: map.F[4].C, invert: false},
+            {pixelSet: map.F[5].C, invert: false}
+        ];
+
+        var rowE3CtoDPath = [
+            {pixelSet: map.E[3].C, invert: false},
+            {pixelSet: map.E[4].C, invert: false},
+            {pixelSet: map.E[5].C, invert: false}
+        ];
+
+        var rowD4CtoDPath = [
+            {pixelSet: map.D[4].C, invert: true},
+            {pixelSet: map.D[5].C, invert: true}
+        ];
+
+        var rowC4CtoDPath = [
+            {pixelSet: map.C[4].C, invert: true},
+            {pixelSet: map.C[5].C, invert: true}
+        ];
+
+        var rowB4CtoDPath = [
+            {pixelSet: map.B[4].C, invert: false},
+            {pixelSet: map.B[5].C, invert: false}
+        ];
+
+        var rowA4CtoDPath = [
+            {pixelSet: map.A[4].C, invert: true},
+            {pixelSet: map.A[5].C, invert: true}
+        ];
+
+        var rowA4AtoDPath = [
+            {pixelSet: map.A[4].A, invert: false},
+            {pixelSet: map.A[5].A, invert: false}
+        ];
+
+
+        //next set
+        var rowH2CtoBPath = [
+            {pixelSet: map.H[2].C, invert: false},
+            {pixelSet: map.H[1].C, invert: false}
+        ];
+
+        var rowG2CtoBPath = [
+            {pixelSet: map.G[2].C, invert: false},
+            {pixelSet: map.G[1].C, invert: false}
+        ];
+
+        var rowF2CtoBPath = [
+            {pixelSet: map.F[2].C, invert: true},
+            {pixelSet: map.F[1].C, invert: true}
+        ];
+
+        var rowE2CtoBPath = [
+            {pixelSet: map.E[2].C, invert: true},
+            {pixelSet: map.E[1].C, invert: true}
+        ];
+
+        var rowD3CtoBPath = [
+            {pixelSet: map.D[3].C, invert: false},
+            {pixelSet: map.D[2].C, invert: false},
+            {pixelSet: map.D[1].C, invert: false}
+        ];
+
+        var rowC3CtoBPath = [
+            {pixelSet: map.C[3].C, invert: false},
+            {pixelSet: map.C[2].C, invert: false},
+            {pixelSet: map.C[1].C, invert: false}
+        ];
+
+        var rowB3CtoBPath = [
+            {pixelSet: map.B[3].C, invert: true},
+            {pixelSet: map.B[2].C, invert: true},
+            {pixelSet: map.B[1].C, invert: true}
+        ];
+
+        var rowA3CtoBPath = [
+            {pixelSet: map.A[3].C, invert: false},
+            {pixelSet: map.A[2].C, invert: false},
+            {pixelSet: map.A[1].C, invert: false}
+        ];
+
+        var rowA3AtoBPath = [
+            {pixelSet: map.A[3].A, invert: true},
+            {pixelSet: map.A[2].A, invert: true},
+            {pixelSet: map.A[1].A, invert: true}
+        ];
+
+        var routeSetAToC = [
+            {route: row1BToAPath, color: color, start: 0},
+            {route: row2BToAPath, color: color, start: 0},
+            {route: row3BToAPath, color: color, start: 0},
+            {route: row4BToAPath, color: color, start: 0},
+            {route: row5BToAPath, color: color, start: 0},
+            {route: row5DToAPath, color: color, start: 0},
+            {route: row1BToCPath, color: color, start: 0},
+            {route: row2BToCPath, color: color, start: 0},
+            {route: row3BToCPath, color: color, start: 0},
+            {route: row4BToCPath, color: color, start: 0},
+            {route: row5BToCPath, color: color, start: 0},
+            {route: row5DToCPath, color: color, start: 0}
+        ];
+
+        var routeSetBtoD = [
+            {route: rowH3CtoDPath, color: color, start: 0},
+            {route: rowG3CtoDPath, color: color, start: 0},
+            {route: rowF3CtoDPath, color: color, start: 0},
+            {route: rowE3CtoDPath, color: color, start: 0},
+            {route: rowD4CtoDPath, color: color, start: 0},
+            {route: rowC4CtoDPath, color: color, start: 0},
+            {route: rowB4CtoDPath, color: color, start: 0},
+            {route: rowA4CtoDPath, color: color, start: 0},
+            {route: rowA4AtoDPath, color: color, start: 0},
+            {route: rowH2CtoBPath, color: color, start: 0},
+            {route: rowG2CtoBPath, color: color, start: 0},
+            {route: rowF2CtoBPath, color: color, start: 0},
+            {route: rowE2CtoBPath, color: color, start: 0},
+            {route: rowD3CtoBPath, color: color, start: 0},
+            {route: rowC3CtoBPath, color: color, start: 0},
+            {route: rowB3CtoBPath, color: color, start: 0},
+            {route: rowA3CtoBPath, color: color, start: 0},
+            {route: rowA3AtoBPath, color: color, start: 0},
+        ];
+
+        return [routeSetAToC, routeSetBtoD];
+    }
+
+    async stopPulseFloor() {
+        this.pulseFloorRun = false;
+
+        setTimeout(() => {
+            this.clearFloor();
+        });
+    }
+
     async stopSnakeFloor() {
         this.snakeFloorRun = false;
     }
@@ -886,6 +1178,118 @@ class PixelFunctions {
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
 
+    async glitterFloor() {
+        this.glitterFloorRun = true;
+        const map = this.pixelMap.getPixelMap();
+        const speed = 70;
+        const startingRed = 80;
+        const startingGreen = 50;
+        const finishWhite = 255;
+
+        await this.fadeFill({r: 80, g: 50, b: 0, brightness: 0}, {r: 80, g: 50, b: 0, brightness: 1}, 1000);
+        
+        var starLines = [];
+
+        for (const [key1, value1] of Object.entries(map)) {
+            for (const [key2, value2] of Object.entries(value1)) {
+                for (const [key3, value3] of Object.entries(value2)) {
+                    var pixels = value3.pixels;
+
+                    var pixelMax = pixels[0] > pixels[pixels.length - 1] ? pixels[0] : pixels[pixels.length - 1];
+                    var pixelMin = pixels[0] < pixels[pixels.length - 1] ? pixels[0] : pixels[pixels.length - 1];
+
+                    var randomStars = [];
+                    for (var i = 0; i < 2; i++) {
+                        var pixel = this.randomIntFromInterval(pixelMin, pixelMax);
+                        var RGBColor = this.randomIntFromInterval(0, 255);
+                        var ascendingInt = this.randomIntFromInterval(1, 2);
+                        var ascending = ascendingInt == 1 ? true : false;
+
+                        randomStars.push({pixel: pixel, color: {r: RGBColor, g: RGBColor, b: RGBColor}, ascending: ascending});
+                    }
+                    starLines.push({section: value3, stars: randomStars});
+                }
+            }
+        }
+
+        while (this.glitterFloorRun) {
+            var controllerMap = {};
+
+            starLines.forEach((starLine) => {
+                var section = starLine.section;
+                var pixels = section.pixels;
+
+                var controllerName = section.controller.getName();
+
+                if (!controllerMap[controllerName]) {
+                    controllerMap[controllerName] = {};
+                    controllerMap[controllerName].pixelSet = [];
+                    controllerMap[controllerName].controller = section.controller;
+                }
+
+                if (starLine.stars.length < 2) {
+                    var pixelMax = pixels[0] > pixels[pixels.length - 1] ? pixels[0] : pixels[pixels.length - 1];
+                    var pixelMin = pixels[0] < pixels[pixels.length - 1] ? pixels[0] : pixels[pixels.length - 1];
+                    
+                    var maxNumber = 2 - starLine.stars.length;
+                    for (var i = 0; i < maxNumber; i++) {
+                        var pixel = this.randomIntFromInterval(pixelMin, pixelMax);
+                        starLine.stars.push({pixel: pixel, color: {r: startingRed, g: startingGreen, b: 0}, ascending: true});
+                    }
+                }
+
+                var removeStars = [];
+                for (var j = 0; j < starLine.stars.length; j++) {
+                    var star = starLine.stars[j];
+                    var color = star.color;
+
+                    if (star.ascending) {
+                        color.r = this.incrementDecrementIfEquals(color.r, finishWhite, true, speed);
+                        color.g = this.incrementDecrementIfEquals(color.g, finishWhite, true, speed);
+                        color.b = this.incrementDecrementIfEquals(color.b, finishWhite, true, speed);
+
+                        if (color.r === finishWhite && color.g === finishWhite && color.b === finishWhite) {
+                            star.ascending = false;
+                        }
+                    } else {
+                        color.r = this.incrementDecrementIfEquals(color.r, startingRed, false, speed);
+                        color.g = this.incrementDecrementIfEquals(color.g, startingGreen, false, speed);
+                        color.b = this.incrementDecrementIfEquals(color.b, 0, false, speed);
+
+                        if (color.r === startingRed && color.g === startingGreen && color.b === 0) {
+                            removeStars.push(j);
+                        }
+                    }
+
+                    controllerMap[controllerName].pixelSet.push({
+                        s: section.strip,
+                        p: star.pixel,
+                        r: color.r,
+                        g: color.g,
+                        b: color.b
+                    });
+                }
+
+                removeStars.forEach((star) => {
+                    starLine.stars.splice(star, 1);
+                })
+
+            });
+
+            for (const [key, value] of Object.entries(controllerMap)) {
+                this.sendPixelValues(value.controller, value.pixelSet, false);
+            }
+            await NeoPixel.wait(20);
+        }
+    }
+
+    async stopGlitterFloor() {
+        this.glitterFloorRun = false;
+        setTimeout(() => {
+            this.clearFloor();
+        }, 10);
+    }
+
     async spaceBallet() {
         this.spaceBalletRun = true;
         const map = this.pixelMap.getPixelMap();
@@ -1017,6 +1421,146 @@ class PixelFunctions {
 
     async turnOffSpaceBallet() {
         this.spaceBalletRun = false;
+    }
+
+    //Generate rainbow of colors across specified number of pixels
+    rainbowEffect(numPixels) {
+        const colors = [];
+
+        // Calculate the step size for transitioning through the hue
+        const hueStep = 360 / numPixels;
+
+        // Iterate over each pixel
+        for (let i = 0; i < numPixels; i++) {
+            // Calculate the hue for the current pixel
+            const hue = i * hueStep;
+
+            // Convert HSV to RGB
+            const { r, g, b } = this.HSLToRGB(hue, 100, 50);
+            // console.info(`Pixel: ${i}, Red: ${r}, Green: ${g}, Blue: ${b}`);
+
+            // Add the RGB values to the colors array
+            colors.push({ p: i, r: r, g: g, b: b });
+        }
+
+        return colors;
+    }
+
+    async startCurtainCall() {
+        const controllers = this.pixelMap.getControllers();
+        var numPixels = 278;
+        this.curtainCallRun = true;
+
+        while (this.curtainCallRun) {
+            //Sweep colors across each strip, every other strip in the opposite direction
+            for(let i = 0; (i < numPixels) && this.curtainCallRun; i++){
+                controllers[0].setPixels([
+                    { s: 0, p: i, r: 255, g: 0, b: 0 },
+                    { s: 1, p: (numPixels - i - 1), r: 0, g: 255, b: 0 },
+                    { s: 2, p: i, r: 0, g: 0, b: 255 },
+                    { s: 3, p: (numPixels - i - 1), r: 255, g: 255, b: 255 }
+                ], false);
+
+                controllers[1].setPixels([
+                    { s: 0, p: i, r: 255, g: 255, b: 0 },
+                    { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
+                    { s: 2, p: i, r: 0, g: 255, b: 255 },
+                    { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
+                ], false);
+
+                controllers[2].setPixels([
+                    { s: 0, p: i, r: 255, g: 255, b: 0 },
+                    { s: 1, p: (numPixels - i - 1), r: 255, g: 0, b: 255 },
+                    { s: 2, p: i, r: 0, g: 255, b: 255 },
+                    { s: 3, p: (numPixels - i - 1), r: 255, g: 100, b: 255 }
+                ], false);
+                await NeoPixel.wait(20);
+            }
+
+            //Sweep the color wheel across each strip, every other strip in the opposite direction
+            const rainbowColors = this.rainbowEffect(numPixels);
+            for (let i = 0; (i < numPixels) && this.curtainCallRun; i++) {
+                controllers[0].setPixels([
+                    {s: 0, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 1, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 2, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 3, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b}
+                ], false);
+
+                controllers[1].setPixels([
+                    {s: 0, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 1, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 2, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 3, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b}
+                ], false);
+
+                controllers[2].setPixels([
+                    {s: 0, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 1, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 2, p: (numPixels - rainbowColors[i].p), r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b},
+                    {s: 3, p: rainbowColors[i].p, r: rainbowColors[i].r, g: rainbowColors[i].g, b: rainbowColors[i].b}
+                ], false);
+
+                await NeoPixel.wait(20);
+            }
+        }
+    }
+
+    async stopCurtainCall() {
+        this.curtainCallRun = false;
+        setTimeout(() => {
+            this.clearFloor();
+        });
+    }
+
+    //Convert HSL color to RGB color
+    HSLToRGB(h, s, l) {
+        // Convert hue to the range [0, 360]
+        h = (h % 360 + 360) % 360;
+    
+        // Convert saturation and lightness to fractions of 1
+        s /= 100;
+        l /= 100;
+
+        // Calculate chroma
+        const chroma = (1 - Math.abs(2 * l - 1)) * s;
+        const x = chroma * (1 - Math.abs(((h / 60) % 2) - 1));
+        const m = l - chroma / 2;
+
+        let r, g, b;
+
+        if (h >= 0 && h < 60) {
+            r = chroma;
+            g = x;
+            b = 0;
+        } else if (h >= 60 && h < 120) {
+            r = x;
+            g = chroma;
+            b = 0;
+        } else if (h >= 120 && h < 180) {
+            r = 0;
+            g = chroma;
+            b = x;
+        } else if (h >= 180 && h < 240) {
+            r = 0;
+            g = x;
+            b = chroma;
+        } else if (h >= 240 && h < 300) {
+            r = x;
+            g = 0;
+            b = chroma;
+        } else if (h >= 300 && h < 360) {
+            r = chroma;
+            g = 0;
+            b = x;
+        }
+
+        // Adjust RGB values and convert to [0, 255]
+        r = Math.round((r + m) * 255);
+        g = Math.round((g + m) * 255);
+        b = Math.round((b + m) * 255);
+
+        return { r: r, g: g, b: b };
     }
 
     async shutdown () {

@@ -114,6 +114,36 @@ app.get("/stopSnakeFloor", (req, res) => {
   res.json("snake floor stopped");
 });
 
+app.get("/pulseFloorOutward", (req, res) => {
+  functions.pulseFloorOutward();
+  res.json("pulse floor started");
+});
+
+app.get("/stopPulseFloor", (req, res) => {
+  functions.stopPulseFloor();
+  res.json("pulse floor stopped");
+});
+
+app.get("/startGlitterFloor", (req, res) => {
+  functions.glitterFloor();
+  res.json("glitter floor started");
+});
+
+app.get("/stopGlitterFloor", (req, res) => {
+  functions.stopGlitterFloor();
+  res.json("glitter floor stopped");
+});
+
+app.get("/startCurtainCall", (req, res) => {
+  functions.startCurtainCall();
+  res.json("curtain call started");
+});
+
+app.get("/stopCurtainCall", (req, res) => {
+  functions.stopCurtainCall();
+  res.json("stop curtain call");
+});
+
 app.get("/shutdown", (req, res) => {
   functions.shutdown();
 

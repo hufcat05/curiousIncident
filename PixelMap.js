@@ -1,6 +1,6 @@
 const NeoPixel = require('./NeoPixel');
 
-const SERVER1 = 'tcp://172.16.96.31:800'
+const SERVER1 = 'tcp://172.17.96.167:800'
 const SERVER2 = 'tcp://172.16.96.32:800'
 const SERVER3 = 'tcp://172.16.96.33:800'
 

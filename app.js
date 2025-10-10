@@ -1,14 +1,41 @@
 var express = require('express');
 const NeoPixel = require('./NeoPixel');
 const PixelFunctions = require('./PixelFunctions');
+const DraculaFunctions = require('./DraculaFunctions');
 var app = express();
 
 app.use(express.json());
 
-var functions = new PixelFunctions();
+//var functions = new PixelFunctions();
+var draculaFunctions = new DraculaFunctions();
 
 app.listen(3000, () =>{
   console.log("server started");
+});
+
+app.post("/fillFlatCoffin", (req, res) => {
+  draculaFunctions.lightFlatCoffin(req.body.color);
+  res.json("Success");
+});
+
+app.post("/offFlatCoffin", (req, res) => {
+  draculaFunctions.offFlatCoffin();
+  res.json("Success");
+});
+
+app.post("/fadeFillStrip", (req, res) => {
+  draculaFunctions.fadeFill(req.body.colorStart, req.body.colorFinish, req.body.fadeTime, req.body.strip, req.body.controller);
+  res.json("Success");
+});
+
+app.post("/glitterCoffin", (req, res) => {
+  draculaFunctions.glitterCoffin(req.body.color0, req.body.color2);
+  res.json("Success");
+});
+
+app.post("/stopGlitterCoffin", (req, res) => {
+  draculaFunctions.stopGlitterCoffin();
+  res.json("Success");
 });
 
 app.post("/setSections", (req, res) => {
@@ -145,7 +172,8 @@ app.get("/stopCurtainCall", (req, res) => {
 });
 
 app.get("/shutdown", (req, res) => {
-  functions.shutdown();
+  //functions.shutdown();
+  draculaFunctions.shutdown();
 
   res.json("Shutdown complete");
 });
